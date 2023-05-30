@@ -2,16 +2,30 @@ import Pagina from '@/components/Pagina'
 import apiFilmes from '@/services/apiFilmes'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
 import { AiOutlineDelete } from 'react-icons/ai'
+import { BsFillPencilFill } from 'react-icons/bs'
 
 const index = () => {
 
   const [cursos, setCursos] = useState([])
 
-  useEffect(()=>{
-    setCursos(JSON.parse(window.localStorage.getItem('cursos')) || [])
+  useEffect(() => {
+    setCursos(getAll())
   }, [])
+
+  function getAll() {
+    return JSON.parse(window.localStorage.getItem('cursos')) || []
+  }
+
+  function excluir(id) {
+    if (confirm('Deseja realmente excluir o registro?')) {
+      const cursos = getAll()
+      cursos.splice(id, 1)
+      window.localStorage.setItem('cursos', JSON.stringify(cursos))
+      setCursos(cursos)
+    }
+  }
 
   return (
     <Pagina titulo="Cursos">
@@ -28,10 +42,13 @@ const index = () => {
           </tr>
         </thead>
         <tbody>
-          {cursos.map( (item, i) => (
-            <tr>
+          {cursos.map((item, i) => (
+            <tr key={i}>
               <td>
-                <AiOutlineDelete className='text-danger' />
+                <Link href={'/cursos/' + i}>
+                  <BsFillPencilFill className='me-2 text-primary' />
+                </Link>
+                <AiOutlineDelete onClick={() => excluir(i)} className='text-danger' />
               </td>
               <td>{item.nome}</td>
               <td>{item.duracao}</td>

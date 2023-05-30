@@ -1,10 +1,18 @@
 import Pagina from '@/components/Pagina'
 import apiFilmes from '@/services/apiFilmes'
 import Link from 'next/link'
-import React from 'react'
-import { Table } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Button, Table } from 'react-bootstrap'
+import { AiOutlineDelete } from 'react-icons/ai'
+import { BsFillPencilFill } from 'react-icons/bs'
 
 const index = () => {
+
+  const [disciplinas, setDisciplinas] = useState([])
+
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <Pagina titulo="Disciplinas">
@@ -15,29 +23,25 @@ const index = () => {
         <thead>
           <tr>
             <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>Nome</th>
+            <th>Duração</th>
+            <th>Modalidade</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td colSpan={2}>Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {disciplinas.map((item, i) => (
+            <tr key={i}>
+              <td>
+                <Link href={'/disciplinas/' + i}>
+                  <BsFillPencilFill className='me-2 text-primary' />
+                </Link>
+                <AiOutlineDelete onClick={() => excluir(i)} className='text-danger' />
+              </td>
+              <td>{item.nome}</td>
+              <td>{item.duracao}</td>
+              <td>{item.modalidade}</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </Pagina>
@@ -45,3 +49,4 @@ const index = () => {
 }
 
 export default index
+
