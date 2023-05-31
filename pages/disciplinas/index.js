@@ -1,5 +1,6 @@
 import Pagina from '@/components/Pagina'
 import apiFilmes from '@/services/apiFilmes'
+import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
@@ -11,7 +12,9 @@ const index = () => {
   const [disciplinas, setDisciplinas] = useState([])
 
   useEffect(() => {
-    
+    axios.get('/api/disciplinas').then(resultado=>{
+      setDisciplinas(resultado.data)
+    })
   }, [])
 
   return (

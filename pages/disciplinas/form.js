@@ -14,9 +14,7 @@ const form = () => {
   const { register, handleSubmit } = useForm()
 
   function salvar(dados) {
-    
     axios.post('/api/disciplinas', dados)
-
   }
 
   return (
