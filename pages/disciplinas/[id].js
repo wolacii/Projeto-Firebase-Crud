@@ -24,9 +24,7 @@ const form = () => {
           setValue(atributo, disciplina[atributo]) 
         }
       })
-
-
-    }
+      }
 
   }, [query.id])
 
