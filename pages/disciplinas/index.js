@@ -1,6 +1,4 @@
 import Pagina from '@/components/Pagina'
-import apiFilmes from '@/services/apiFilmes'
-import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
@@ -9,27 +7,27 @@ import { BsFillPencilFill } from 'react-icons/bs'
 
 const index = () => {
 
-  const [disciplinas, setDisciplinas] = useState([])
+  const [disciplinas, setCursos] = useState([])
 
   useEffect(() => {
-    getAll()
+    setCursos(getAll())
   }, [])
 
-  function getAll(){
-    axios.get('/api/disciplinas').then(resultado=>{
-      setDisciplinas(resultado.data)
-    })
+  function getAll() {
+    return JSON.parse(window.localStorage.getItem('disciplinas')) || []
   }
 
-  function excluir(id){
-    if(confirm('Deseja realmente excluir o registro?')){
-      axios.delete('/api/disciplinas/' + id)
-      getAll()
+  function excluir(id) {
+    if (confirm('Deseja realmente excluir o registro?')) {
+      const disciplinas = getAll()
+      disciplinas.splice(id, 1)
+      window.localStorage.setItem('disciplinas', JSON.stringify(disciplinas))
+      setCursos(disciplinas)
     }
   }
 
   return (
-    <Pagina titulo="Disciplinas">
+    <Pagina titulo="disciplinas">
 
       <Link href={'/disciplinas/form'} className="btn btn-primary mb-2" >Novo</Link>
 
@@ -38,20 +36,22 @@ const index = () => {
           <tr>
             <th>#</th>
             <th>Nome</th>
-            <th>Curso</th>
+            <th>Duração</th>
+            <th>Modalidade</th>
           </tr>
         </thead>
         <tbody>
-          {disciplinas.map((item) => (
-            <tr key={item.id}>
+          {disciplinas.map((item, i) => (
+            <tr key={i}>
               <td>
-                <Link href={'/disciplinas/' + item.id}>
+                <Link href={'/disciplinas/' + i}>
                   <BsFillPencilFill className='me-2 text-primary' />
                 </Link>
-                <AiOutlineDelete onClick={() => excluir(item.id)} className='text-danger' />
+                <AiOutlineDelete onClick={() => excluir(i)} className='text-danger' />
               </td>
               <td>{item.nome}</td>
-              <td>{item.curso}</td>
+              <td>{item.duracao}</td>
+              <td>{item.modalidade}</td>
             </tr>
           ))}
         </tbody>

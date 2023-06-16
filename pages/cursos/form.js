@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { IoMdArrowRoundBack } from 'react-icons/io'
 import cursoValidator from '@/validators/cursoValidator'
-
+ 
 const form = () => {
 
   const { push } = useRouter()
